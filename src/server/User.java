@@ -47,6 +47,7 @@ public class User {
 	}
 	
 	public PrintWriter getOutput() {
+		
 		return output;
 	}
 	
