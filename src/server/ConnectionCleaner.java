@@ -5,15 +5,16 @@ import java.net.Socket;
 import java.util.Iterator;
 
 public final class ConnectionCleaner {
-	public static void cleanConnections(User user) {
+	public static boolean cleanConnections(User user) {
 		if (!user.isActive()) {
 			try {
 				user.close();
 			} catch (IOException e) {
-				System.err.println(e);
+				e.printStackTrace();
 			}
 			System.out.println("User " + user.getId() + " removed!");
-			Data.connectionArray.remove(user);
+			return true;
 		}
+		return false;
 	}
 }

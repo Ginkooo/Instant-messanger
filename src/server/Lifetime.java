@@ -1,5 +1,7 @@
 package server;
 
+import java.util.Iterator;
+
 public final class Lifetime extends Thread {
 
 	public static final Lifetime lifetime = new Lifetime();
@@ -13,9 +15,11 @@ public final class Lifetime extends Thread {
 
 	private void process() {
 		synchronized (Data.connectionArrayLock) {
-			for (User user : Data.connectionArray) {
+			for (Iterator iterator = Data.connectionArray.iterator(); iterator.hasNext();) {
+				User user = (User) iterator.next();
 				ConnectionAliveChecker.checkIfAlife(user);
-				ConnectionCleaner.cleanConnections(user);
+				boolean userRemoved = ConnectionCleaner.cleanConnections(user);
+				if (userRemoved) { iterator.remove(); continue; }
 				String message = MessageReciever.recieveMessages(user);
 				if (message != null) {
 					MessageSender.sendToAll(message, user);

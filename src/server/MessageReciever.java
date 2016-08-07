@@ -16,7 +16,7 @@ public final class MessageReciever {
 				return message;
 			}
 		} catch (IOException e) {
-			System.err.println(e);
+			e.printStackTrace();
 		}
 		return null;
 	}
