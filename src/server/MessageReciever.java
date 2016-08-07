@@ -5,27 +5,20 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
-public final class MessageReciever extends Thread {
-	public static final MessageReciever messageReciever = new MessageReciever();
+public final class MessageReciever {
 
-	@Override
-	public void run() {
+	public static String recieveMessages(User user) {
 		try {
-			while (true) {
-				synchronized (Data.connectionArrayLock) {
-					for (User u : Data.connectionArray) {
-						if (u.getInput().ready()) {
-							String message = u.getInput().readLine();
-							u.keepAlive();
-							System.out.println(u.getId() + ": " + message);
-							MessageSender.sendToAll(message, u);
-						}
-					}
-				}
+			if (user.getInput().ready()) {
+				String message = user.getInput().readLine();
+				user.keepAlive();
+				System.out.println(user.getId() + ": " + message);
+				return message;
 			}
 		} catch (IOException e) {
 			System.err.println(e);
 		}
+		return null;
 	}
 
 }

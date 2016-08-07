@@ -19,7 +19,7 @@ public final class AcceptLoop extends Thread {
 			}
 		}
 		} catch (IOException e) {
-			
+			System.err.println(e);
 		}
 	}
 }
