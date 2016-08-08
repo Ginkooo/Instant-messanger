@@ -11,8 +11,14 @@ public final class MessageReciever {
 		try {
 			if (user.getInput().ready()) {
 				String message = user.getInput().readLine();
-				user.keepAlive();
-				System.out.println(user.getId() + ": " + message);
+				if (!user.isLoggedIn()) {
+					UserLogging.logUserIn(user, message);
+					message = "User " + user.getId() + " logged in!";
+					System.out.println(message);
+				} else {
+					user.keepAlive();
+					System.out.println(user.getId() + ": " + message);
+				}
 				return message;
 			}
 		} catch (IOException e) {

@@ -15,7 +15,7 @@ public final class Lifetime extends Thread {
 
 	private void process() {
 		synchronized (Data.connectionArrayLock) {
-			for (Iterator iterator = Data.connectionArray.iterator(); iterator.hasNext();) {
+			for (Iterator<User> iterator = Data.connectionArray.iterator(); iterator.hasNext();) {
 				User user = (User) iterator.next();
 				ConnectionAliveChecker.checkIfAlife(user);
 				boolean userRemoved = ConnectionCleaner.cleanConnections(user);

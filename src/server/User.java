@@ -15,15 +15,25 @@ public class User {
 	private PrintWriter output;
 	private boolean active = true;
 	private long lastActiveTime;
-	private int id;
+	private String id;
+	private boolean isLoggedIn = false;
 	
 	public User(Socket socket) throws IOException {
-		Random random = new Random();
-		this.id = random.nextInt(1000);
 		this.socket = socket;
 		this.input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		this.output = new PrintWriter(socket.getOutputStream());
 		this.lastActiveTime = Calendar.getInstance().getTimeInMillis();
+	}
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void setLoggedIn(boolean isLoggedIn) {
+		this.isLoggedIn = isLoggedIn;
+	}
+	
+	public boolean isLoggedIn() {
+		return isLoggedIn;
 	}
 	
 	public void setActive(boolean active) {
@@ -42,13 +52,17 @@ public class User {
 		return input;
 	}
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
 	public PrintWriter getOutput() {
 		
 		return output;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	public void close() throws IOException {
@@ -65,5 +79,6 @@ public class User {
 		output.println(message);
 		output.flush();
 	}
+	
 
 }
