@@ -12,14 +12,18 @@ public final class MessageReciever {
 			if (user.getInput().ready()) {
 				String message = user.getInput().readLine();
 				if (!user.isLoggedIn()) {
-					UserLogging.logUserIn(user, message);
-					message = "User " + user.getId() + " logged in!";
-					System.out.println(message);
+					try {
+						UserLogging.logUserIn(user, message);
+						message = "User " + user.getId() + " logged in!";
+						System.out.println(message);
+					} catch (Exception e) {
+						user.sendMessage(e.getMessage());
+					}
 				} else {
 					user.keepAlive();
 					try {
-					processPrvMessage(message);
-					} catch(RuntimeException e) {
+						processPrvMessage(message);
+					} catch (RuntimeException e) {
 						user.sendMessage(e.getMessage());
 					}
 					System.out.println(user.getId() + ": " + message);
@@ -31,16 +35,15 @@ public final class MessageReciever {
 		}
 		return null;
 	}
-	
+
 	private static void processPrvMessage(String message) throws RuntimeException {
-		String [] splittedMessage = message.split(",");
+		String[] splittedMessage = message.split(",");
 		if (splittedMessage.length != 3)
 			throw new RuntimeException("Wrong message pattern. Correct: yourusername,otherusername,messagetosend!");
 		String fromUserId = splittedMessage[0];
 		String toUserId = splittedMessage[1];
 		String messageToSend = splittedMessage[2];
-		
-		
+
 		User fromUser = UserSearcher.searchForUserById(fromUserId);
 		User destUser = UserSearcher.searchForUserById(toUserId);
 		if (fromUser == null || destUser == null) {
@@ -48,8 +51,7 @@ public final class MessageReciever {
 		}
 		destUser.keepAlive();
 		MessageSender.send(messageToSend, destUser, fromUser);
-		
-		
+
 	}
 
 }
