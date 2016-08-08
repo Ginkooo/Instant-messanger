@@ -35,7 +35,7 @@ public final class MessageReciever {
 	private static void processPrvMessage(String message) throws RuntimeException {
 		String [] splittedMessage = message.split(",");
 		if (splittedMessage.length != 3)
-			throw new RuntimeException("Wrong message pattern");
+			throw new RuntimeException("Wrong message pattern. Correct: yourusername,otherusername,messagetosend!");
 		String fromUserId = splittedMessage[0];
 		String toUserId = splittedMessage[1];
 		String messageToSend = splittedMessage[2];
