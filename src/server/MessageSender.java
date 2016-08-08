@@ -8,4 +8,15 @@ public final class MessageSender {
 			u.sendMessage(message);
 		}
 	}
+	
+	public static void send(String message, User destUser, User fromUser) {
+		message = "From " + fromUser.getId() + ": " + message;
+		for (User user: Data.connectionArray) {
+			if (user.getId().equals(destUser.getId())) {
+				user.sendMessage(message);
+				return;
+			}
+		}
+		fromUser.sendMessage("There is no user like " + destUser.getId());
+	}
 }

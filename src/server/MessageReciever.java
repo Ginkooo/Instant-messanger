@@ -17,6 +17,11 @@ public final class MessageReciever {
 					System.out.println(message);
 				} else {
 					user.keepAlive();
+					try {
+					processPrvMessage(message);
+					} catch(RuntimeException e) {
+						user.sendMessage(e.getMessage());
+					}
 					System.out.println(user.getId() + ": " + message);
 				}
 				return message;
@@ -25,6 +30,26 @@ public final class MessageReciever {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	private static void processPrvMessage(String message) throws RuntimeException {
+		String [] splittedMessage = message.split(",");
+		if (splittedMessage.length != 3)
+			throw new RuntimeException("Wrong message pattern");
+		String fromUserId = splittedMessage[0];
+		String toUserId = splittedMessage[1];
+		String messageToSend = splittedMessage[2];
+		
+		
+		User fromUser = UserSearcher.searchForUserById(fromUserId);
+		User destUser = UserSearcher.searchForUserById(toUserId);
+		if (fromUser == null || destUser == null) {
+			throw new RuntimeException("Cant process message");
+		}
+		destUser.keepAlive();
+		MessageSender.send(messageToSend, destUser, fromUser);
+		
+		
 	}
 
 }

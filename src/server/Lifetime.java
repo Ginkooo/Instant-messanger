@@ -20,10 +20,7 @@ public final class Lifetime extends Thread {
 				ConnectionAliveChecker.checkIfAlife(user);
 				boolean userRemoved = ConnectionCleaner.cleanConnections(user);
 				if (userRemoved) { iterator.remove(); continue; }
-				String message = MessageReciever.recieveMessages(user);
-				if (message != null) {
-					MessageSender.sendToAll(message, user);
-				}
+				String message = MessageReciever.recieveMessages(user);	
 			}
 		}
 
