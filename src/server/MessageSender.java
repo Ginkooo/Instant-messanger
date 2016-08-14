@@ -19,4 +19,6 @@ public final class MessageSender {
 		}
 		fromUser.sendMessage("There is no user like " + destUser.getId());
 	}
+	
+	
 }

@@ -21,6 +21,7 @@ public final class MessageReciever {
 					}
 				} else {
 					user.keepAlive();
+					MessageFile.store(message);
 					try {
 						processPrvMessage(message);
 					} catch (RuntimeException e) {
